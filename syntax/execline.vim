@@ -22,9 +22,11 @@ syn cluster elToplevel contains=elCommand,elWord,elComment,elBlock
 syn keyword elCommand background backtick cd define dollarat elgetopt
       \ elgetpositionals elglob emptyenv exec exit export fdblock fdclose
       \ fdmove fdreserve fdswap forbacktickx foreground forstdin forx getcwd
-      \ getpid heredoc homeof if ifelse ifte ifthenelse import importas
+      \ getpid heredoc homeof if ifelse ifte ifthenelse importas
       \ loopwhilex multidefine multisubstitute pipeline piperw redirfd
       \ runblock shift trap tryexec umask unexport wait withstdinas
+
+syn keyword elDeprecated import
 
 " Words can begin with any character greater than 0x20, and they end when
 " encountering a character less than or equal to 0x20, unless prevented by an
@@ -87,5 +89,6 @@ hi def link elString String
 hi def link elStrContinuation Special
 hi def link elStrEscape Special
 hi def link elBadEscape Error
+hi def link elDeprecated Error
 
 " vim:set ts=2 sw=2 et:
