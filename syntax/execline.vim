@@ -48,7 +48,7 @@ syn region elBlock matchgroup=elBrace start=/{\_[\x00-\x20]/rs=s+1,me=e-1 end=/}
 """ Syntax elements which occur within (and extend) words: escapes and quoted
 """ strings.
 """
-syn cluster elInWord contains=elEscape,elString
+syn cluster elInWord contains=elEscape,elString,elSubstitution,elSimpleSub
 
 " Any single character outside a quoted string may be escaped with a
 " backslash; no special meaning is given to escapes like \n.
@@ -62,18 +62,24 @@ syn region elString start=/"/ end=/"/ contained contains=@elInString
 """ Syntax elements which occur within (and extend) quoted strings: line
 """ continuations and escapes.
 """
-syn cluster elInString contains=elStrContinuation,elStrEscape,elBadEscape
+syn cluster elInString contains=elStrContinuation,elStrEscape,elBadEscape,elSubstitution,elSimpleSub
 
 syn match elStrContinuation +\\\n+ contained
 syn match elStrEscape +\\\%([1-9]\d\{0,2}\|0\o\{1,3}\|0x\x\{1,2}\|\D\)+ contained
 syn match elBadEscape +\\0\%([^0-7x]\|x\X\)+ contained
 
 
-"""
-""" Substitution syntax (only when cleanly nested wrt strings)
-"""
+""" XXX When in quotes, simple substitution continues until (and maybe past)
+""" the end of quotes, unless encountering one of $, {, }, or \.
 
-" TODO
+
+"""
+""" Substitutions (only when not interfering with execline syntax)
+"""
+syn match elSubstitution /\${[^${}\\"]\+}/ contained
+
+hi def link elSimpleSub elSubstitution
+syn match elSimpleSub /\$[^${}\\"\x00-\x20]\+\_[${}\\\x00-\x20]/me=e-1 contained
 
 
 """
@@ -82,6 +88,7 @@ syn match elBadEscape +\\0\%([^0-7x]\|x\X\)+ contained
 hi def link elCommand Statement
 hi def link elComment Comment
 hi def link elBrace Delimiter
+hi def link elSubstitution PreProc
 
 hi def link elEscape String
 hi def link elString String
