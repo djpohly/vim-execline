@@ -7,9 +7,7 @@ if exists("b:current_syntax")
   finish
 endif
 
-" TODO: Syntax file no longer using \<, \>, \k, or \K, so this is not needed.
-" Is there a more natural choice for iskeyword now?
-"syn iskeyword 33-126
+syn iskeyword 33-126
 
 
 """
@@ -19,12 +17,17 @@ endif
 syn cluster elToplevel contains=elCommand,elWord,elComment,elBlock
 
 " Provided execline commands
-syn keyword elCommand background backtick cd define dollarat elgetopt
-      \ elgetpositionals elglob emptyenv exec exit export fdblock fdclose
-      \ fdmove fdreserve fdswap forbacktickx foreground forstdin forx getcwd
-      \ getpid heredoc homeof if ifelse ifte ifthenelse importas
-      \ loopwhilex multidefine multisubstitute pipeline piperw redirfd
-      \ runblock shift trap tryexec umask unexport wait withstdinas
+syn keyword elCommand 
+      \ execline-cd posix-cd cd execline-umask posix-umask umask
+      \ emptyenv envfile export unexport
+      \ fdclose fdblock fdmove fdswap fdreserve redirfd piperw heredoc
+      \ wait getcwd getpid exec tryexec exit trap withstdinas
+      \ foreground background case if ifelse ifte ifthenelse
+      \ backtick pipeline runblock
+      \ define importas elglob elgetpositionals multidefine multisubstitute
+      \ forx forstdin forbacktickx loopwhilex
+      \ elgetopt shift dollarat
+      \ homeof
 
 syn keyword elDeprecated import
 
